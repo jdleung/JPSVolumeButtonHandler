@@ -183,6 +183,14 @@ static CGFloat minVolume                    = 0.00001f;
 - (void)applicationDidChangeActive:(NSNotification *)notification {
     self.appIsActive = [notification.name isEqualToString:UIApplicationDidBecomeActiveNotification];
     if (self.appIsActive && self.isStarted) {
+        if (self.session != nil) {
+            NSError *error = nil;
+            [self.session setActive:YES error:&error];
+            if (error) {
+                NSLog(@"%@", error);
+                return;
+            }
+        }
         [self setInitialVolume];
     }
 }
